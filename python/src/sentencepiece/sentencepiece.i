@@ -200,8 +200,9 @@ class PySentenceIterator : public sentencepiece::SentenceIterator {
 
   std::string DecodeIdsWithCheck(
       const std::vector<int> &ids) const {
+    const int num_pieces = $self->GetPieceSize(); 
     for (int id : ids)
-      if (id < 0 || id >= $self->GetPieceSize())
+      if (id < 0 || id >= num_pieces)
         throw sentencepiece::util::Status(
             sentencepiece::util::StatusCode::kOutOfRange,
             "piece id is out of range.");
@@ -210,8 +211,9 @@ class PySentenceIterator : public sentencepiece::SentenceIterator {
 
   util::bytes DecodeIdsAsSerializedProtoWithCheck(
       const std::vector<int> &ids) const {
+    const int num_pieces = $self->GetPieceSize(); 
     for (int id : ids)
-      if (id < 0 || id >= $self->GetPieceSize())
+      if (id < 0 || id >= num_pieces)
         throw sentencepiece::util::Status(
             sentencepiece::util::StatusCode::kOutOfRange,
             "piece id is out of range.");

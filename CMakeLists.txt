@@ -13,7 +13,7 @@
 # limitations under the License.!
 
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
-file(STRINGS "VERSION" SPM_VERSION)
+file(STRINGS "VERSION.txt" SPM_VERSION)
 message(STATUS "VERSION: ${SPM_VERSION}")
 project(sentencepiece VERSION ${SPM_VERSION} LANGUAGES C CXX)
 
@@ -26,6 +26,7 @@ option(SPM_ENABLE_TCMALLOC "Enable TCMalloc if available." ON)
 option(SPM_TCMALLOC_STATIC "Link static library of TCMALLOC." OFF)
 option(SPM_NO_THREADLOCAL "Disable thread_local operator" OFF)
 option(SPM_USE_BUILTIN_PROTOBUF "Use built-in protobuf" ON)
+option(SPM_USE_EXTERNAL_ABSL "Use external protobuf" OFF)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -93,6 +94,10 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_BINARY_DIR})
 
 if (SPM_BUILD_TEST)
   enable_testing()
+endif()
+
+if (SPM_USE_EXTERNAL_ABSL)
+ add_subdirectory(third_party/abseil-cpp)
 endif()
 
 add_subdirectory(src)

@@ -12,21 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.!
 
-#include "init.h"
+#ifndef ABSL_FLAGS_PARSE_H_
+#define ABSL_FLAGS_PARSE_H_
 
-#include "third_party/absl/flags/flag.h"
+#include <vector>
 
-namespace sentencepiece {
+namespace absl {
 
-void ParseCommandLineFlags(const char *usage, int *argc, char ***argv,
-                           bool remove_arg) {
-  const auto unused_args = absl::ParseCommandLine(*argc, *argv);
+std::vector<char *> ParseCommandLine(int argc, char *argv[]);
+}  // namespace absl
 
-  if (remove_arg) {
-    char **argv_val = *argv;
-    *argv = argv_val = argv_val + *argc - unused_args.size();
-    std::copy(unused_args.begin(), unused_args.end(), argv_val);
-    *argc = static_cast<int>(unused_args.size());
-  }
-}
-}  // namespace sentencepiece
+#endif  // ABSL_FLAGS_PARSE_H_
